@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenFOAM web server</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <figure>
+        <img src="{% static 'ismo_amk_okm.jpg' %}" width="" height="" alt="">
+        </figure>
+    <h2>OpenFOAM web server - a step toward Digital Twins</h2>
+    
+    <!-- Display the image -->
+    <!img src="{% static 'porosity.jpg' %}" width="800" height="300" alt="Graphic schematic">
+
+
+        
+    <figure>
+        <img src="{% static 'porosity.jpg' %}" width="800" height="300" alt="The Bread Dog" width="300" height="300">
+            <figcaption>Figure 1: Schematic description of the model</figcaption>
+        </figure>
+    
+        
+            <!-- Display the instructions -->
+    <p style="color:#FF0000";>Please provide the model inputs in below.</p>
+
+    <form method="post" id="form1" action="/">
+        {% csrf_token %}
+        <label for="flow_rate_in"><it>Inlet flow rate (m³/s)</it>:</label>
+        <input type="text" id="flow_rate_in" name="flow_rate_in" required title="Value must be between 0 and 1" value="{{ previous_input.flow_rate_in|default:'' }}"><br>
+
+        <label for="water_in">Switch for water inlet [0=flow-OFF; 1=flow-ON]:</label>
+        <input type="text" id="water_in" name="water_in" required title="Value must be either 0 or 1" value="{{ previous_input.water_in|default:'' }}"><br>
+
+        <label for="eps_top">Porosity (top layer):</label>
+        <input type="text" id="eps_top" name="eps_top" required title="Value must be between 0 and 1" value="{{ previous_input.eps_top|default:'' }}"><br>
+
+        <label for="eps_mid">Porosity (middle layer):</label>
+        <input type="text" id="eps_mid" name="eps_mid" required title="Value must be between 0 and 1" value="{{ previous_input.eps_mid|default:'' }}"><br>
+
+        <label for="eps_bot">Porosity (bottom layer):</label>
+        <input type="text" id="eps_bot" name="eps_bot" required title="Value must be between 0 and 1" value="{{ previous_input.eps_bot|default:'' }}"><br>
+
+        <label for="ini_water_fraction">Initial fraction of water in the cell [0=no water (dry); 1=fully saturated]:</label>
+        <input type="text" id="ini_water_fraction" name="ini_water_fraction" required title="Value must be between 0 and 1" value="{{ previous_input.ini_water_fraction|default:'' }}"><br>
+     
+        <label for="sim_time_end"> Total (flow) simulation time (s):</label>
+        <input type="text" id="sim_time_end" name="sim_time_end" required title="Value must be between 0 and 36000" value="{{ previous_input.sim_time_end|default:'' }}"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <br> <img id="loading" src="static/loading.gif" style="width:50px; opacity: 0;"/>
+
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Display the figures if they exist in the context -->
+    <h3>Results </h3>
+    
+    <div>
+        <figure>
+            <img id="fig0_intermediate" src=""  alt=" ">
+                <figcaption>Figure: Volume fraction of water. 0: pure air and 1: pure water. </figcaption>
+            </figure>
+        <figure>
+            <img id="fig1_intermediate" src=""  alt=" ">
+                <figcaption>Figure: Water flow at various locations. </figcaption>
+            </figure>
+        <!img id="fig0_intermediate" src="" width="800" height="350" alt="Figure 0">
+        <!img id="fig1_intermediate" src="" width="480" height="192" alt="Figure 1">
+        <!img id="fig2" src="" alt="Figure 2">
+    </div>
+
+    
+    <script>
+        function show_loading() {
+            $("#loading").css('opacity', 1);
+        }
+        function hide_loading() {
+            $("#loading").css('opacity', 0);
+        }
+        function disable_submit() {
+            $("#form1 input[type=submit]").prop("disabled", true)
+        }
+        function enable_submit() {
+            $("#form1 input[type=submit]").prop('disabled', false)
+        }
+        function clear_images() {
+            $("#fig0_intermediate").attr("src", "")
+            $("#fig1_intermediate").attr("src", "")
+            $("#fig2").attr("src", "")
+        }
+
+        function check_for_latest_image() {
+            $.ajax({
+                    type: "GET",
+                    data: {},
+                    dataType: "json",
+                    url: "/get-intermediate-images",
+                    beforeSend: function (xhr) {},
+                    complete: function(xhr, status) {},
+                    success: function (result) {
+                        $("#fig0_intermediate").attr("src", result["latest_1"])
+                        $("#fig1_intermediate").attr("src", result["latest_2"])
+
+                    }
+                });
+        }
+
+        function start_checking_for_latest_image() {
+            interval_var = setInterval(check_for_latest_image, 1000);
+        }
+
+        function stop_checking_for_latest_image() {
+            clearInterval(interval_var);
+        }
+
+        $(document).ready(function () {
+            $("#form1").submit(function(e) {
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+                var form = $(this);
+                var actionUrl = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    data: form.serialize(), // serializes the form's elements.
+                    dataType: "json",
+                    url: "/",
+                    beforeSend: function (xhr) {
+                        clear_images();
+                        start_checking_for_latest_image();
+                        show_loading();
+                        disable_submit()
+                    },
+                    complete: function(xhr, status) {
+                        stop_checking_for_latest_image();
+                        hide_loading();
+                        enable_submit()
+                    },
+                    success: function (result) {
+                        fig1 = result["figure1_filename"]
+                        fig2 = result["figure1_filename"]
+                        $("#fig1").attr("src", fig1)
+                        $("#fig2").attr("src", fig2)
+                    }
+                });
+                
+
+
+            });
+        });
+    </script>
+
+</body>
+</html>
