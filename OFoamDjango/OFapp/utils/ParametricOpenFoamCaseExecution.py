@@ -71,8 +71,8 @@ class ParametricOpenFoamCaseExecution:
         subprocess.run('blockMesh > log.blockMesh', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
         subprocess.run('setFields > log.setField', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
         subprocess.run('decomposePar > log.decompose', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
-        ##subprocess.run('mpirun -np 8 --oversubscribe hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
-        subprocess.run('hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
+        subprocess.run('mpirun -np 8 --oversubscribe hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
+        ##subprocess.run('hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
  
     def findConvergedSolutionFolder(self):
         # Finds the folder with highest integer number in the name (prouced by OpenFOAM as the converged sol'n)
