@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alpha.wetting;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include        "../setUp"
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0; 
+
+boundaryField
+{
+    frontAndBack
+    {
+        type            empty;
+    }
+    
+    top
+    {
+	type           zeroGradient;
+    }
+    walls
+    {
+	type           zeroGradient;
+    }
+   air_inlet
+    {
+        type            fixedValue;
+        value           uniform 0;
+    }
+    air_out
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }    
+   
+    water_inlet
+    {
+        type            fixedValue;
+        value           uniform $isFlowOn;
+    }
+ /*
+    water_inlet
+        {
+      	type 		uniformFixedValue;
+    	uniformValue 	 
+		{
+	  	type             tableFile;  
+          	nHeaderLine      0;              // number of header lines  
+          	refColumn        0;                // time column index  
+          	componentColumns (1 );     // data column index  
+          	//separator        ",";               // optional (defaults to ",")  
+          	mergeSeparators  no;        // merge multiple separators  
+          	file             "$FOAM_CASE/inlet_alpha_data_step";
+		}
+    	}
+ */   
+    water_out_up
+    {
+	type           zeroGradient;
+    }
+    water_out_down
+    {
+ 	type           zeroGradient;
+    }
+    oldInternalFaces
+    {
+        type           zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //
