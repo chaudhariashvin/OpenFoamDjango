@@ -4,7 +4,7 @@
 
 source /opt/openfoam7/etc/bashrc
 
-git clone https://github.com/Franjcf/hybridPorousInterFoam.git
+# git clone https://github.com/Franjcf/hybridPorousInterFoam.git
 cd hybridPorousInterFoam/OpenFoamV7/
 ./Allwclean
 ./Allwmake
