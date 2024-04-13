@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-@l^psm$u=y-%en(2mc_=gv1k-19!hc(t2z^#on#^u&!&lel@dj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "lkt.rahtiapp.fi"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "http://lkt.rahtiapp.fi", "https://lkt.rahtiapp.fi"]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
