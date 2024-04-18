@@ -136,11 +136,15 @@
                         disable_submit()
                     },
                     complete: function(xhr, status) {
+
+                    }, error: function (request, status, error) {
+                        console.log(request.responseText);
+                        alert("The first request time out. Images will be loaded still.");
+                    }, success: function (result) {
                         stop_checking_for_latest_image();
                         hide_loading();
                         enable_submit()
-                    },
-                    success: function (result) {
+
                         fig1 = result["figure1_filename"]
                         fig2 = result["figure1_filename"]
                         $("#fig1").attr("src", fig1)
