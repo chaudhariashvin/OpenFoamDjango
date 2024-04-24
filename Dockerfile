@@ -32,6 +32,8 @@ ENV PYVISTA_OFF_SCREEN=true
 RUN pip install --no-cache-dir --upgrade pip \
   && pip3 install --no-cache-dir -r requirements.txt
 
+RUN sudo apt-get install imagemagick # for making gif images
+
   # add user "foam" to install hybridPorousInterFoam
 RUN useradd --user-group --create-home --shell /bin/bash foam
 RUN echo "foam ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

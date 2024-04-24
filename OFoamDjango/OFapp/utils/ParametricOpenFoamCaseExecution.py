@@ -18,7 +18,7 @@ class ParametricOpenFoamCaseExecution:
     figure_width = 1200
     figure_height = 600
 
-    def __init__(self, flow_rate_in=0.005, water_in=1, eps_top=0.4, eps_mid=0.34, eps_bot=0.4, ini_water_fraction=0.5, sim_end_time=300):
+    def __init__(self, flow_rate_in=0.001, water_in=1, eps_top=0.4, eps_mid=0.34, eps_bot=0.4, ini_water_fraction=0.5, sim_end_time=300):
         
         # Variables dependent on user input
         self.flow_rate_in = flow_rate_in
@@ -70,9 +70,9 @@ class ParametricOpenFoamCaseExecution:
         import subprocess
         subprocess.run('blockMesh > log.blockMesh', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
         subprocess.run('setFields > log.setField', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
-        subprocess.run('decomposePar > log.decompose', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
-        subprocess.run('mpirun -np 8 --oversubscribe hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
-        ##subprocess.run('hybridPorousInterFoam> log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
+       ### subprocess.run('decomposePar > log.decompose', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
+      ###  subprocess.run('mpirun -np 8 --oversubscribe hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
+        subprocess.run('hybridPorousInterFoam > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)
  
     def findConvergedSolutionFolder(self):
         # Finds the folder with highest integer number in the name (prouced by OpenFOAM as the converged sol'n)

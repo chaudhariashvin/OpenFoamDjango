@@ -1,11 +1,11 @@
 // Domain size and number of cells.
 lx0 0;
 ly0 0;
-lz0 -0.05;
-lz1 0.05;
+lz0 -0.025;
+lz1 0.025;
 
 L   10; // length of the cell
-hSand 0.9;
+hSand 0.6;
 H    3; // height of the cell
 p_d 0.1; //pipe diameter
 p_l 0.5; // pipe length 
@@ -13,7 +13,7 @@ p_l 0.5; // pipe length
 
 Dx	0.05; //
 Dy 	0.05;
-Dy_pipe	0.05; //Dy_last 	0.2;
+Dy_pipe	0.025; //Dy_last 	0.2;
 //Ratio		#calc "$Dy_pipe / $Dy_last"; 
 
 
@@ -44,22 +44,22 @@ nx1    #calc "$lx1 / $Dx";                        // Number of cells in x-direct
 nx2    #calc "$p_l / $Dx";                        // Number of cells for pipe
 
 ny1     #calc   "$p_d / $Dy_pipe";                         // Number of cells in y-direction (pipe).
-ny2	#calc "($ly2 - $p_d) / $Dy";
-ny3	40; //#calc "$airDomainHeight / $Dx"; //22 for 1.9 m edge	
+ny2	#calc "($ly2 - $p_d) / 0.03";
+ny3	50; //#calc "$airDomainHeight / $Dx"; //22 for 1.9 m edge	
 
-Gy		1;
+Gy		3;
 
 
 // NOTE: we need discussion on how large the domain size should be
 
 //***********************decomposePar***************************
 // Number of cores and domain decomposition information.
-nCores               8;                         // Number of cores on which to run this case.
-decompOrder          (4 2 1);                     // Order of the decomposition number of partitions in (x y z)-directions.
+nCores               2;                         // Number of cores on which to run this case.
+decompOrder          (2 1 1);                     // Order of the decomposition number of partitions in (x y z)-directions.
 //*****************Boundary Conditions*********************************
 // Initial and Boundary conditions
 flowRate	REPLACEME_FLOWRATE;
-flowVelocityInitial 		(0.05 0 0); // initial value of U
+flowVelocityInitial 		(0.01 0 0); // initial value of U
 isFlowOn	REPLACEME_FLOWSIGN; // Must be either 1 or 0; 1=flow on; 0=no flow  
  
 //d                    		uniform 0.0;	// displacement height (if used)
