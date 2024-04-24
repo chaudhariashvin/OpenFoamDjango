@@ -29,11 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1", 
+    "lknbs.rahtiapp.fi",
     "lkt.rahtiapp.fi", 
     "lkt2.rahtiapp.fi"
 ]
 CSRF_TRUSTED_ORIGINS = [
-        "http://127.0.0.1", 
+        "http://127.0.0.1",
+        "http://lknbs.rahtiapp.fi",
+        "https://lknbs.rahtiapp.fi", 
         "http://lkt.rahtiapp.fi", 
         "https://lkt.rahtiapp.fi",
         "http://lkt2.rahtiapp.fi", 

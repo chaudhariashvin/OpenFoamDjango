@@ -104,7 +104,7 @@ def input_form_view(request):
     else:
         # Define your default values here
         context['previous_input'] = {
-                    'flow_rate_in': 0.005,
+                    'flow_rate_in': 0.001,
                     'water_in': 1,
                     'eps_top': 0.4,
                     'eps_mid': 0.34,

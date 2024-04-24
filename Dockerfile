@@ -31,8 +31,9 @@ COPY ./requirements.txt /app
 ENV PYVISTA_OFF_SCREEN=true
 RUN pip install --no-cache-dir --upgrade pip \
   && pip3 install --no-cache-dir -r requirements.txt
-
-RUN sudo apt-get install imagemagick # for making gif images
+  
+# for making gif images
+##RUN apt-get install imagemagick
 
   # add user "foam" to install hybridPorousInterFoam
 RUN useradd --user-group --create-home --shell /bin/bash foam

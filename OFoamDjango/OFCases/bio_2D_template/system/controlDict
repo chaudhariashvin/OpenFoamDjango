@@ -25,7 +25,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         $stopTime; //300;
+endTime         $stopTime;
 
 deltaT          5e-3;
 
@@ -103,7 +103,8 @@ functions
   	    writeInterval   $DataWriteInterval;
         executeCalls 0( );
         writeCalls ("python3 vtk_to_png2.py " );
-        endCalls ( "python3 vtk_to_png2.py " "convert -delay 30 -loop 0 $(ls -v alpha_*.png) gif_animation.gif");
+        endCalls ( "python3 vtk_to_png2.py ");
+  //      endCalls ( "python3 vtk_to_png2.py " "convert -delay 30 -loop 0 $(ls -v alpha_*.png) gif_animation.gif");
  //      outputControl outputTime;   
     }
  
