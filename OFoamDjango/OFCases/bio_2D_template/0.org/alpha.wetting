@@ -14,7 +14,9 @@ FoamFile
     object      alpha.wetting;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 #include        "../setUp"
+
 dimensions      [0 0 0 0 0 0 0];
 
 internalField   uniform 0; 
@@ -45,13 +47,14 @@ boundaryField
         inletValue      uniform 0;
         value           uniform 0;
     }    
-   
+    
     water_inlet
     {
         type            fixedValue;
         value           uniform $isFlowOn;
-    }
- /*
+    }  
+
+/* 
     water_inlet
         {
       	type 		uniformFixedValue;
@@ -66,10 +69,13 @@ boundaryField
           	file             "$FOAM_CASE/inlet_alpha_data_step";
 		}
     	}
- */   
+   */ 
     water_out_up
     {
-	type           zeroGradient;
+	//type           zeroGradient;
+	type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
     }
     water_out_down
     {

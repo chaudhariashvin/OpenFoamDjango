@@ -36,19 +36,19 @@ boundaryField
     }
     air_inlet
     {
-       type          zeroGradient;
+        type           zeroGradient;
     }
     air_out
     {
-        type          zeroGradient;
+        type          fixedFluxPressure;
     }    
     water_inlet
     {
-      type          zeroGradient;
+        type           zeroGradient;
     }
     water_out_up
     {
-       type           zeroGradient;
+        type          fixedFluxPressure;
     }
     water_out_down
     {

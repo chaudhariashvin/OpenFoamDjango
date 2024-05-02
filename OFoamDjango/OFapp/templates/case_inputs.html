@@ -15,9 +15,8 @@
     <!img src="{% static 'porosity2.jpg' %}" width="800" height="300" alt="Graphic schematic">
 
 
-        
-    <figure>
-        <img src="{% static 'porosity2.jpg' %}" width="800" height="250" alt="The Bread Dog" width="300" height="300">
+      <figure>
+        <img src="{% static 'porosity3.jpg' %}" width="800" height="230" alt="The Bread Dog" width="300" height="300">
             <figcaption>Figure 1: Schematic description of the model</figcaption>
         </figure>
     
@@ -28,10 +27,12 @@
     <form method="post" id="form1" action="/">
         {% csrf_token %}
         <label for="flow_rate_in"><it>Inlet flow rate (m³/s)</it>:</label>
-        <input type="text" id="flow_rate_in" name="flow_rate_in" required title="Value must be between 0 and 1" value="{{ previous_input.flow_rate_in|default:'' }}"><br>
+        <input type="text" id="flow_rate_in" name="flow_rate_in" required title="Value must be between 0.00001 and 0.0021" value="{{ previous_input.flow_rate_in|default:'' }}"><br>
+         <p style="color:#3498DB";>Since the model domain is small (2D) in volume, the maximum allowed value is 0.002 (m³/s) to avoid numerical instabilities due to flooding.</p>
 
         <label for="water_in">Switch for water inlet [0=flow-OFF; 1=flow-ON]:</label>
-        <input type="text" id="water_in" name="water_in" required title="Value must be either 0 or 1" value="{{ previous_input.water_in|default:'' }}"><br>
+        <input type="text" id="water_in" name="water_in" required title="Value must be Either 0 or 1" value="{{ previous_input.water_in|default:'' }}"><br>
+        <p style="color:#3498DB";>The input value should be either 0 or 1. In case of emptying the water from the domain use 0.</p>
 
         <label for="eps_top">Porosity (top layer):</label>
         <input type="text" id="eps_top" name="eps_top" required title="Value must be between 0 and 1" value="{{ previous_input.eps_top|default:'' }}"><br>
@@ -41,13 +42,16 @@
 
         <label for="eps_bot">Porosity (bottom layer):</label>
         <input type="text" id="eps_bot" name="eps_bot" required title="Value must be between 0 and 1" value="{{ previous_input.eps_bot|default:'' }}"><br>
+        
+     <p style="color:#3498DB";>The input value in all 3 layers MUST be between 0.05 and 0.99 to have a robust model performace.</p>
 
-        <label for="ini_water_fraction">Initial fraction of water in the cell [0=no water (dry); 1=fully saturated]:</label>
+        <label for="ini_water_fraction">Initial fraction of water in the cell [0=no water (dry); 1=fully saturated/no air]:</label>
         <input type="text" id="ini_water_fraction" name="ini_water_fraction" required title="Value must be between 0 and 1" value="{{ previous_input.ini_water_fraction|default:'' }}"><br>
+      <p style="color:#3498DB";>The input value for the initial water fraction MUST be bigger than 0 and smaller than 1.</p>
      
         <label for="sim_time_end"> Total (flow) simulation time (s):</label>
         <input type="text" id="sim_time_end" name="sim_time_end" required title="Value must be between 0 and 36000" value="{{ previous_input.sim_time_end|default:'' }}"><br>
-
+      <p style="color:#3498DB";> Input a suitable simulation time or use the default one.</p>
         <input type="submit" value="Submit">
     </form>
 
@@ -60,8 +64,10 @@
 
     <!-- Display the figures if they exist in the context -->
     <h3>Results </h3>
-    
+    <p style="color:#186A3B";> Users are allowed to record the screen (use e.g. ScreenToGif tool) to make an animation of the following continuously changing results.</p>
     <div>
+     
+ 
         <figure>
             <img id="fig0_intermediate" src=""  alt=" ">
                 <figcaption>Figure: Volume fraction of water. 0: pure air and 1: pure water. </figcaption>
@@ -71,7 +77,7 @@
                 <figcaption>Figure: Water flow at various locations. </figcaption>
             </figure>
         <!img id="fig0_intermediate" src="" width="800" height="350" alt="Figure 0">
-        <!img id="fig1_intermediate" src="" width="480" height="192" alt="Figure 1">
+        <!img id="fig1_intermediate" src="" width="800" height="350" alt="Figure 1">
         <!img id="fig2" src="" alt="Figure 2">
     </div>
 

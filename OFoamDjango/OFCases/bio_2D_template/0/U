@@ -15,6 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 #include        "../setUp"
+
 dimensions      [0 1 -1 0 0 0 0];
 
 internalField   uniform (0.0 0 0);
@@ -41,12 +42,12 @@ boundaryField
     }
     air_out
     {
-        type           zeroGradient;
-    /*
+       // type           zeroGradient;
+    
         type            inletOutlet;
         inletValue      uniform (0 0 0);
         value           uniform (0 0 0);
-    */
+        
     } 
 
 /*
@@ -62,6 +63,7 @@ boundaryField
           }
     }
     
+/*
     water_inlet // working in v7
     {
      	type 		uniformFixedValue;
@@ -110,17 +112,19 @@ boundaryField
             interpolationScheme linear;     // optional interpolation scheme
         }
     }
-*/   
+ */
     water_inlet
     {
         type            flowRateInletVelocity;//fixedValue;
         volumetricFlowRate  $flowRate;
         value           uniform $flowVelocityInitial;
     }
-  
+    
     water_out_up
     {
-        type           zeroGradient;
+        type            inletOutlet;
+        inletValue      uniform (0 0 0);
+        value           uniform (0 0 0);
     }
     water_out_down
     {

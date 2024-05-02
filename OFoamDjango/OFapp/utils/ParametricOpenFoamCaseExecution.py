@@ -68,7 +68,9 @@ class ParametricOpenFoamCaseExecution:
 
     def execFoam(self):
         import subprocess
-        subprocess.run('blockMesh > log.blockMesh', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
+      ##   subprocess.run('rm -rf graph_* alpha_* 1* 2* 3* 4* 5* 6* postProcessing*', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=20)
+     ###     subprocess.run('0.org/* 0/', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=20)
+   ###     subprocess.run('blockMesh > log.blockMesh', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
         subprocess.run('setFields > log.setField', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
        ### subprocess.run('decomposePar > log.decompose', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=50)
       ###  subprocess.run('mpirun -np 8 --oversubscribe hybridPorousInterFoam -parallel > log.solver', shell=True, cwd=ParametricOpenFoamCaseExecution.path_to_target,timeout=3600)

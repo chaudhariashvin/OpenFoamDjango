@@ -19,15 +19,15 @@ FoamFile
 
 application     hybridPorousInterFoam; 
 
-startFrom       latestTime;
+startFrom       latestTime; 
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         $stopTime;
+endTime         $stopTime; //300;
 
-deltaT          5e-3;
+deltaT          5e-3; 
 
 writeControl    adjustableRunTime; 
 
@@ -45,7 +45,7 @@ timeFormat      general;
 
 timePrecision   6;
 
-runTimeModifiable yes;
+runTimeModifiable off;
 
 adjustTimeStep  yes;
 
@@ -100,22 +100,23 @@ functions
         type        systemCall;
         libs        ("libutilityFunctionObjects.so");
         writeControl    adjustableRunTime; 
-  	    writeInterval   $DataWriteInterval;
+  	writeInterval   $DataWriteInterval;
+        
         executeCalls 0( );
-        writeCalls ("python3 vtk_to_png2.py " );
-        endCalls ( "python3 vtk_to_png2.py ");
-  //      endCalls ( "python3 vtk_to_png2.py " "convert -delay 30 -loop 0 $(ls -v alpha_*.png) gif_animation.gif");
+        writeCalls ("python3 vtk_to_png2.py ");
+        endCalls   ("python3 vtk_to_png2.py " );
+        //endCalls ( "python3 vtk_to_png2.py " "convert -delay 30 -loop 0 $(ls -v alpha_*.png) gif_alpha_animation.gif");
  //      outputControl outputTime;   
     }
- 
+    
      inlet_flow
     	{
         type            surfaceFieldValue;
         libs            ("libfieldFunctionObjects.so");
         enabled         yes;
       //  writeControl    timeStep;
-        writeControl    adjustableRunTime; 
-	      writeInterval   $graphWriteInterval;
+       writeControl    adjustableRunTime; 
+	writeInterval   1;
         log             no;
         writeFields     no;
         regionType      patch;
@@ -137,8 +138,8 @@ functions
         libs            ("libfieldFunctionObjects.so");
         enabled         yes;
       //  writeControl    timeStep;
-        writeControl    adjustableRunTime; 
-	      writeInterval   $graphWriteInterval;
+       writeControl    adjustableRunTime; 
+	writeInterval   1;
         log             no;
         writeFields     no;
         regionType      patch;
@@ -152,15 +153,36 @@ functions
            alphaPhi
         );
     	}
-    
+       upper_out
+    	{
+        type            surfaceFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+        enabled         yes;
+      //  writeControl    timeStep;
+       writeControl    adjustableRunTime; 
+	writeInterval   1;
+        log             no;
+        writeFields     no;
+        regionType      patch;
+        name            water_out_up;
+        operation       sum;
+        weightField     phi;
+        //surfaceFormat 	raw;
+        fields
+        (
+           phi
+           alphaPhi
+        );
+    	}
+    	   
     big_out
     	{
         type            surfaceFieldValue;
         libs            ("libfieldFunctionObjects.so");
         enabled         yes;
       //  writeControl    timeStep;
-        writeControl    adjustableRunTime; 
-	      writeInterval   $graphWriteInterval;
+       writeControl    adjustableRunTime; 
+	writeInterval   1;
         log             no;
         writeFields     no;
         regionType      patch;
@@ -181,7 +203,7 @@ functions
         libs            ("libfieldFunctionObjects.so");
            // writeControl    timeStep;
         writeControl    adjustableRunTime; 
-	      writeInterval   $graphWriteInterval;
+	writeInterval   1;
         log             false;
         writeFields     false;
         regionType          all;
@@ -192,7 +214,7 @@ functions
             alpha.wetting
         );
     }
-
+    
     systemCall2
     {
         type        systemCall;
@@ -202,8 +224,9 @@ functions
         executeCalls 0( );
         writeCalls ("python3 graphs_to_png.py" );
         endCalls ("python3 graphs_to_png.py");
+       // endCalls ("python3 graphs_to_png.py" "convert -delay 30 -loop 0 $(ls -v graph_*.png) gif_graph_animation.gif");
  //      outputControl outputTime;   
-    }    	
+    }    	  	
 }
 
 

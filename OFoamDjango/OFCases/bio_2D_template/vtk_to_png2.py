@@ -7,7 +7,7 @@ dir = [int(value) for value in dir]
 
 # Find the maximum time directory
 max_d = max(dir)
-
+ 
 # Load the VTK file
 vtk_file_path = os.path.join('postProcessing/planes', str(max_d), 'alpha.wetting_xy.vtk')
 mesh = pv.read(vtk_file_path)

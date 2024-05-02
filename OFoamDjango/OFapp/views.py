@@ -78,7 +78,7 @@ def input_form_view(request):
                 }
                 
                 # Check validity conditions
-                if 0 < flow_rate_in < 1 and -1 < water_in < 1.1 and 0 < eps_top < 1 and 0 < eps_mid < 1 and 0 < eps_bot < 1 and 0 < ini_water_fraction < 1 and 0 < sim_time_end < 360000:
+                if 0 < flow_rate_in < 0.0021 and -0.1 < water_in < 1.01 and 0.0499 < eps_top < 1 and 0.0499 < eps_mid < 1 and 0.0499 < eps_bot < 1 and 0 < ini_water_fraction < 1 and 0 < sim_time_end < 360000:
                     # Call your custom Python function here, passing the inputs as arguments
                     figure1_filename, figure2_filename = ResolveOpenFOAM(flow_rate_in, water_in, eps_top, eps_mid, eps_bot, ini_water_fraction, sim_time_end)
 
@@ -108,7 +108,7 @@ def input_form_view(request):
                     'water_in': 1,
                     'eps_top': 0.4,
                     'eps_mid': 0.34,
-                    'eps_bot': 0.4,
+                    'eps_bot': 0.43,
                     'ini_water_fraction': 0.5,
                     'sim_time_end': 300,
         }

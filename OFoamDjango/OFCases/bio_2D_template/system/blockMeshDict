@@ -14,7 +14,29 @@ FoamFile
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-#include        "../setUp"
+
+//convertToMeters 1e-3;
+
+lx0 0;
+ly0 0;
+lz0 -0.05;
+
+lx1 10;
+ly1 0.1;
+lz1 0.05;
+
+lx2 10;
+ly2 0.6;
+//lz2 0.1;
+
+lx3 10;
+ly3 0.7;
+//lz3 0.1;
+
+lx4 10;
+ly4 3.0;
+//lz4 0.1;
+
 
 vertices
 (
@@ -42,15 +64,15 @@ vertices
     ($lx0 $ly4 $lz1)
     ($lx1 $ly4 $lz1)
     
-    ($lpx1 $ly2 $lz0)
-    ($lpx1 $ly3 $lz0)
-    ($lpx1 $ly2 $lz1)
-    ($lpx1 $ly3 $lz1)
+    (-0.5 $ly2 $lz0)
+    (-0.5 $ly3 $lz0)
+    (-0.5 $ly2 $lz1)
+    (-0.5 $ly3 $lz1)
     
-    ($lpx2 $ly0 $lz0)
-    ($lpx2 $ly1 $lz0)
-    ($lpx2 $ly0 $lz1)
-    ($lpx2 $ly1 $lz1)
+    (10.5 $ly0 $lz0)
+    (10.5 $ly1 $lz0)
+    (10.5 $ly0 $lz1)
+    (10.5 $ly1 $lz1)
 
     
 
@@ -58,12 +80,12 @@ vertices
 
 blocks
 (
-    hex (0 1 2 3 4 5 6 7) ($nx1 $ny1 1) simpleGrading (1 1 1)
-    hex (3 2 9 8 7 6 13 12) ($nx1 $ny2 1) simpleGrading (1 1 1)
-    hex (8 9 10 11 12 13 14 15 ) ($nx1 $ny1 1) simpleGrading (1 1 1)
-    hex (11 10 17 16 15 14 19 18) ($nx1 $ny3 1) simpleGrading (1 $Gy 1)
-    hex (20 8 11 21 22 12 15 23) ($nx2 $ny1 1) simpleGrading (1 1 1)
-    hex (1 24 25 2 5 26 27 6) ($nx2 $ny1 1) simpleGrading (1 1 1)
+    hex (0 1 2 3 4 5 6 7) (100 2 1) simpleGrading (1 1 1)
+    hex (3 2 9 8 7 6 13 12) (100 10 1) simpleGrading (1 1 1)
+    hex (8 9 10 11 12 13 14 15 ) (100 2 1) simpleGrading (1 1 1)
+    hex (11 10 17 16 15 14 19 18) (100 29 1) simpleGrading (1 4 1)
+    hex (20 8 11 21 22 12 15 23) (5 2 1) simpleGrading (1 1 1)
+    hex (1 24 25 2 5 26 27 6) (5 2 1) simpleGrading (1 1 1)
 );
 
 edges
@@ -115,7 +137,6 @@ boundary
             (8 12 22 20) // water_inlet_down
             (24 26 5 1)
             (2 6 27 25) // water_out_upFace
-            (10 14 13 9) //water_out_upper
         );
     }
 
@@ -146,7 +167,6 @@ boundary
         );
     }
 
-/*
     water_out_up
     {
         type patch;
@@ -155,7 +175,7 @@ boundary
             (10 14 13 9)
         );
     }
-*/    
+    
     water_out_down
     {
         type patch;

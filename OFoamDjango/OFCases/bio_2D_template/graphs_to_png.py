@@ -16,20 +16,24 @@ def read_data(file_path):
 
 big = read_data('postProcessing/big_out/0/surfaceFieldValue.dat')
 lower = read_data('postProcessing/lower_out/0/surfaceFieldValue.dat')
+upper = read_data('postProcessing/upper_out/0/surfaceFieldValue.dat')
 inlet = read_data('postProcessing/inlet_flow/0/surfaceFieldValue.dat')
 vol = read_data('postProcessing/waterVolume/0/volFieldValue.dat')
 
+big [:, 2]= big[:, 2]+upper[:, 2];
 # Plot the data
 plt.figure()
 
 # Plot the inlet flow rate
-plt.plot(inlet[:, 0] / 60, -inlet[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Inflow')
+plt.plot(inlet[:, 0], -inlet[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Inflow')
 
 # Plot the infiltrate flow rate
-plt.plot(lower[:, 0] / 60, lower[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Infiltrate')
+plt.plot(lower[:, 0], lower[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Infiltrate')
+##plt.plot(upper[:, 0], upper[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Overflow_small')
 
 # Plot the overflow flow rate
-plt.plot(big[:, 0] / 60, big[:, 2] * 1000, '.', linewidth=1, markersize=8, label='Overflow')
+plt.plot(big[:, 0], abs(big[:, 2]) * 1000, '.', linewidth=1, markersize=8, label='Overflow')
+
 
 t=vol[:, 0]
 
@@ -39,9 +43,9 @@ max_t = int(max(t))
 plt.grid(True)
 f_title = f'Time:{max_t} s'
 plt.title(f_title,fontsize=14)
-plt.legend(['Inflow', 'Outflow', 'Over-flow'],fontsize=12)
+plt.legend(['Inflow', 'Outlet-pipe', 'Runoff'],fontsize=12)
 plt.ylabel('Flow rate [l/s]',fontsize=12)
-plt.xlabel('Time [min]',fontsize=12)
+plt.xlabel('Time [s]',fontsize=12)
 
 # Set plot properties
 #plt.gca().set_linewidth(1)
